@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from "react";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+// import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import classNames from "classnames";
 import DWChart from "react-datawrapper-chart";
+import TabBar from "components/_shared/TabBar/TabBar";
 
 import "react-tabs/style/react-tabs.css";
 import "./react-tabs-style-overrides.css";
@@ -38,7 +39,7 @@ const Frame = ({ tab, isFixedHeight, ...props }) => {
 };
 
 function TabbedView({ uuid, tabs, height = "auto", background = "#fdfdfc" }) {
-  const [currentTab, setCurrentTab] = useState(0);
+  const [currentTabIdx, setCurrentTabIdx] = useState(0);
   const [appHeight, setAppHeight] = useState();
   const appRef = useRef();
 
@@ -70,44 +71,32 @@ function TabbedView({ uuid, tabs, height = "auto", background = "#fdfdfc" }) {
     window.parent.postMessage({ "data-tabs-command": command, "data-tabs-target": uuid }, "*");
   }, [uuid, appHeight]);
 
+  const enumaredTabs = tabs.map((tab, idx) => ({ ...tab, idx }));
+  const selectedTab = enumaredTabs[currentTabIdx];
+
+  if (!selectedTab) return null;
+
   return (
     <div
       className={classNames("app", isFixedHeight && "app-fixed")}
       ref={appRef}
       style={{ background }}
     >
-      <Tabs
-        className={classNames("tabs", isFixedHeight && "tabs-fixed")}
-        forceRenderTabPanel
-        onSelect={(index) => setCurrentTab(index)}
-      >
-        <TabList>
-          {tabs.map((tab, i) => (
-            <Tab key={i}>{tab.title}</Tab>
-          ))}
-        </TabList>
+      <TabBar
+        id="datawrapper-tabs"
+        tabs={enumaredTabs}
+        format={(tab) => tab.title}
+        selectedTab={selectedTab}
+        onChange={(tab) => {
+          setCurrentTabIdx(tab.idx);
+        }}
+      />
 
-        <div className={classNames("panel-container", isFixedHeight && "panel-fixed")}>
-          {tabs.map((tab, i) => (
-            <TabPanel
-              key={i}
-              className={classNames(
-                "panel",
-                i !== currentTab ? "panel-out" : "panel-selected",
-                isFixedHeight && "panel-fixed"
-              )}
-              style={{ background }}
-              aria-expanded={i === currentTab}
-            >
-              <Frame
-                tab={tab}
-                isFixedHeight={isFixedHeight}
-                className={classNames("frame", isFixedHeight && "frame-fixed")}
-              />
-            </TabPanel>
-          ))}
-        </div>
-      </Tabs>
+      <Frame
+        tab={selectedTab}
+        isFixedHeight={isFixedHeight}
+        className={classNames("frame", isFixedHeight && "frame-fixed")}
+      />
     </div>
   );
 }
