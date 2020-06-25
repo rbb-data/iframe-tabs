@@ -1,11 +1,7 @@
 import React, { useState, useMemo } from "react";
-// import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import classNames from "classnames";
 import DWChart from "react-datawrapper-chart";
 import TabBar from "components/_shared/TabBar/TabBar";
-
-import "react-tabs/style/react-tabs.css";
-import "./react-tabs-style-overrides.css";
 
 import "./TabbedView.css";
 import { useLayoutEffect } from "react";
@@ -71,7 +67,7 @@ function TabbedView({ uuid, tabs, height = "auto", background = "#fdfdfc" }) {
     window.parent.postMessage({ "data-tabs-command": command, "data-tabs-target": uuid }, "*");
   }, [uuid, appHeight]);
 
-  const enumaredTabs = tabs.map((tab, idx) => ({ ...tab, idx }));
+  const enumaredTabs = useMemo(() => tabs.map((tab, idx) => ({ ...tab, idx })), [tabs]);
   const selectedTab = enumaredTabs[currentTabIdx];
 
   if (!selectedTab) return null;
@@ -92,11 +88,18 @@ function TabbedView({ uuid, tabs, height = "auto", background = "#fdfdfc" }) {
         }}
       />
 
-      <Frame
-        tab={selectedTab}
-        isFixedHeight={isFixedHeight}
-        className={classNames("frame", isFixedHeight && "frame-fixed")}
-      />
+      {enumaredTabs.map((tab) => (
+        <Frame
+          key={tab.idx}
+          tab={tab}
+          isFixedHeight={isFixedHeight}
+          className={classNames(
+            "frame",
+            isFixedHeight && "frame-fixed",
+            currentTabIdx === tab.idx && "is-selected"
+          )}
+        />
+      ))}
     </div>
   );
 }

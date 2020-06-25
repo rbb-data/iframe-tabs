@@ -32,26 +32,7 @@
   grid-row-gap: 0px;
 }
 
-.panel {
-  position: relative;
-  box-sizing: border-box;
-  top: 0;
-  left: 0;
-  right: 0;
-  padding: 10px;
-
-  grid-area: 1 / 1 / 2 / 2;
-
-  opacity: 1;
-  visibility: visible;
-  z-index: 1;
-}
-
-.panel-fixed {
-  flex-grow: 1;
-}
-
-@keyframes panelAnimOut {
+/* @keyframes panelAnimOut {
   from {
     opacity: 1;
     visibility: visible;
@@ -96,12 +77,20 @@
 
 .panel-fixed {
   height: 100% !important;
-}
+} */
 
 .frame {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 1s;
   display: block;
   border: 0;
   width: 100%;
+  height: 100%;
+}
+
+.frame.is-selected {
+  opacity: 1;
 }
 
 .frame-fixed {
