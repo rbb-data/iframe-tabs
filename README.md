@@ -6,7 +6,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Usage
 
-To create a new tabed URL navigate to `https://dj1.app.rbb-cloud.de/datawrapper-switcher/#/new`
+To create a new tabed URL navigate to https://dj1.app.rbb-cloud.de/datawrapper-switcher/#/new
 
 **Example:**
 
