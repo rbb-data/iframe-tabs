@@ -4,7 +4,7 @@ import { AllHtmlEntities as Entities } from "html-entities";
 import { v4 as uuidv4 } from "uuid";
 
 import TabbedView from "./TabbedView";
-import frameResizerScript from "./frameResizer";
+import frameResizerScript from "lib/frameResizer";
 
 import "./Configurator.css";
 

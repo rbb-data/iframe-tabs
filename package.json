@@ -1,14 +1,15 @@
 {
-  "name": "iframe-tabs",
+  "name": "datawrapper-tabs",
   "version": "0.1.0",
   "private": true,
-  "homepage": "",
+  "homepage": "https://dj1.app.rbb-cloud.de/datawrapper-tabs",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "classnames": "^2.2.6",
     "html-entities": "^1.3.1",
+    "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-app-polyfill": "^1.0.6",
     "react-datawrapper-chart": "^1.0.3",
@@ -23,7 +24,8 @@
     "build": "react-scripts build",
     "postbuild": "postcss --use postcss-custom-properties --replace build/**/*.css",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "NODE_ENV=production npm run build && rsync -srvP --rsync-path='sudo rsync' -e 'ssh -i ~/.ssh/rbb-data.pem' build/ linux@rbb-dj-dev.app.rbb-cloud.de:/var/www/datawrapper-tabs/"
   },
   "eslintConfig": {
     "extends": "react-app"

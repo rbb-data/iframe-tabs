@@ -1,27 +1,23 @@
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
+import "react-app-polyfill/ie11";
+import "react-app-polyfill/stable";
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom";
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import './index.css';
-import TabbedView from './TabbedView';
-import Configurator from './Configurator';
+import "./index.sass";
+import TabbedView from "./components/TabbedView";
+import Configurator from "./components/Configurator";
 
 const urlParams = new URLSearchParams(window.location.search);
 
-const titles = urlParams.getAll('title');
-const urls = urlParams.getAll('url');
-const frameTitles = urlParams.getAll('frameTitle');
-const ariaLabels = urlParams.getAll('ariaLabel');
-const background = urlParams.get('background') || undefined;
-const height = urlParams.get('height') || null;
-const uuid = urlParams.get('uuid') || undefined;
+const titles = urlParams.getAll("title");
+const urls = urlParams.getAll("url");
+const frameTitles = urlParams.getAll("frameTitle");
+const ariaLabels = urlParams.getAll("ariaLabel");
+const background = urlParams.get("background") || undefined;
+const height = urlParams.get("height") || null;
+const uuid = urlParams.get("uuid") || undefined;
 
 const tabs = titles.map((title, i) => ({
   title,
@@ -43,5 +39,5 @@ ReactDOM.render(
       </Switch>
     </Router>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
