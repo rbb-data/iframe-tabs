@@ -1,4 +1,4 @@
-# iframe-tabs
+# Datawrapper Switcher
 
 Simple tool to merge multiple iframes into a tabbed view of them
 
@@ -10,7 +10,7 @@ To create a new tabed URL navigate to `/new`
 
 **Example:**
 
-https://dj1.app.rbb-cloud.de/datawrapper-tabs/#/view?uuid=e5a734ab-2c7a-42b1-b297-d1643d7497db&title=tt&url=%2F%2Fdatawrapper.dwcdn.net%2FbiK9v%2F1%2F&frameTitle=Verf%C3%BCgbare+Intensivbetten+mit+Beatmungsmaschine&ariaLabel=NRW-Karte+von+verf%C3%BCgbaren+Intensivbetten+mit+Beatmungsmaschine%23%2F&title=tt&url=%2F%2Fdatawrapper.dwcdn.net%2FbiK9v%2F1%2F&frameTitle=Verf%C3%BCgbare+Intensivbetten+mit+Beatmungsmaschine&ariaLabel=NRW-Karte+von+verf%C3%BCgbaren+Intensivbetten+mit+Beatmungsmaschine%23%2F&height=500
+https://dj1.app.rbb-cloud.de/datawrapper-switcher/#/view?uuid=e5a734ab-2c7a-42b1-b297-d1643d7497db&title=tt&url=%2F%2Fdatawrapper.dwcdn.net%2FbiK9v%2F1%2F&frameTitle=Verf%C3%BCgbare+Intensivbetten+mit+Beatmungsmaschine&ariaLabel=NRW-Karte+von+verf%C3%BCgbaren+Intensivbetten+mit+Beatmungsmaschine%23%2F&title=tt&url=%2F%2Fdatawrapper.dwcdn.net%2FbiK9v%2F1%2F&frameTitle=Verf%C3%BCgbare+Intensivbetten+mit+Beatmungsmaschine&ariaLabel=NRW-Karte+von+verf%C3%BCgbaren+Intensivbetten+mit+Beatmungsmaschine%23%2F&height=500
 
 ## Available Scripts
 

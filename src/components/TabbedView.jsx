@@ -79,7 +79,7 @@ function TabbedView({ uuid, tabs, height = "auto", background = "#fdfdfc" }) {
       style={{ background }}
     >
       <TabBar
-        id="datawrapper-tabs"
+        id="datawrapper-switcher"
         tabs={enumaredTabs}
         format={(tab) => tab.title}
         selectedTab={selectedTab}

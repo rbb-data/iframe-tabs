@@ -1,8 +1,8 @@
 {
-  "name": "datawrapper-tabs",
+  "name": "datawrapper-switcher",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://dj1.app.rbb-cloud.de/datawrapper-tabs",
+  "homepage": "https://dj1.app.rbb-cloud.de/datawrapper-switcher",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -25,7 +25,7 @@
     "postbuild": "postcss --use postcss-custom-properties --replace build/**/*.css",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "NODE_ENV=production npm run build && rsync -srvP --rsync-path='sudo rsync' -e 'ssh -i ~/.ssh/rbb-data.pem' build/ linux@rbb-dj-dev.app.rbb-cloud.de:/var/www/datawrapper-tabs/"
+    "deploy": "NODE_ENV=production npm run build && rsync -srvP --rsync-path='sudo rsync' -e 'ssh -i ~/.ssh/rbb-data.pem' build/ linux@rbb-dj-dev.app.rbb-cloud.de:/var/www/datawrapper-switcher/"
   },
   "eslintConfig": {
     "extends": "react-app"
