@@ -206,7 +206,9 @@ function Configurator() {
 
     url.searchParams.append("height", embedHeight || "auto");
 
-    return url.toString();
+    // since we use the hash router we need to fix the url here.
+    // we could also build it differently but for now this change is easier
+    return url.toString().replace("/view?", "/#/view?");
   }, [embedBackground, embedHeight, tabs, uuid]);
 
   const embedCode = useMemo(() => makeEmbedCode(uuid, viewUrl, embedTitle, embedHeight), [

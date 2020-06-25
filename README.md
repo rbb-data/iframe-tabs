@@ -10,7 +10,7 @@ To create a new tabed URL navigate to `/new`
 
 **Example:**
 
-http://localhost:3000/view?title=Low-Care&url=%2F%2Fdatawrapper.dwcdn.net%2F0QpVD%2F3%2F&frameTitle=Verf%C3%BCgbare+Intensivbetten+ohne+Beatmungsm%C3%B6glichkeit&ariaLabel=NRW-Karte+von+verf%C3%BCgbaren+Intensivbetten+ohne+Beatmungsm%C3%B6glichkeit&title=High-Care&url=%2F%2Fdatawrapper.dwcdn.net%2FQkVNF%2F1%2F&frameTitle=Verf%C3%BCgbare+Intensivbetten+mit+Beatmungsm%C3%B6glichkeit&ariaLabel=NRW-Karte+von+verf%C3%BCgbaren+Intensivbetten+mit+Beatmungsm%C3%B6glichkeit&title=ECMO&url=%2F%2Fdatawrapper.dwcdn.net%2FbiK9v%2F1%2F&frameTitle=Verf%C3%BCgbare+Intensivbetten+mit+Beatmungsmaschine&ariaLabel=NRW-Karte+von+verf%C3%BCgbaren+Intensivbetten+mit+Beatmungsmaschine
+http://localhost:3000/#/view?title=Low-Care&url=%2F%2Fdatawrapper.dwcdn.net%2F0QpVD%2F3%2F&frameTitle=Verf%C3%BCgbare+Intensivbetten+ohne+Beatmungsm%C3%B6glichkeit&ariaLabel=NRW-Karte+von+verf%C3%BCgbaren+Intensivbetten+ohne+Beatmungsm%C3%B6glichkeit&title=High-Care&url=%2F%2Fdatawrapper.dwcdn.net%2FQkVNF%2F1%2F&frameTitle=Verf%C3%BCgbare+Intensivbetten+mit+Beatmungsm%C3%B6glichkeit&ariaLabel=NRW-Karte+von+verf%C3%BCgbaren+Intensivbetten+mit+Beatmungsm%C3%B6glichkeit&title=ECMO&url=%2F%2Fdatawrapper.dwcdn.net%2FbiK9v%2F1%2F&frameTitle=Verf%C3%BCgbare+Intensivbetten+mit+Beatmungsmaschine&ariaLabel=NRW-Karte+von+verf%C3%BCgbaren+Intensivbetten+mit+Beatmungsmaschine
 
 ## Available Scripts
 

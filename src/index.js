@@ -3,13 +3,17 @@ import "react-app-polyfill/stable";
 
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
 
 import "./index.sass";
 import TabbedView from "./components/TabbedView";
 import Configurator from "./components/Configurator";
 
-const urlParams = new URLSearchParams(window.location.search);
+// this is a little messy - since we use the hash router
+// we cant parse query params like normal
+// propably there is a better way to do this though
+const queryStringFromHash = window.location.hash.split("?")[1];
+const urlParams = new URLSearchParams(queryStringFromHash);
 
 const titles = urlParams.getAll("title");
 const urls = urlParams.getAll("url");
