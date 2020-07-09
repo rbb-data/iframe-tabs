@@ -192,7 +192,7 @@ function Configurator() {
   const uuid = useMemo(uuidv4, [tabs, embedTitle, embedHeight]);
 
   const viewUrl = useMemo(() => {
-    const url = new URL(`/view`, window.location.origin);
+    const url = new URL(`${process.env.PUBLIC_URL}/view`, window.location.origin);
     url.searchParams.append("uuid", uuid);
     for (const tab of tabs) {
       url.searchParams.append("title", tab.title);
