@@ -34,7 +34,7 @@ const Frame = ({ tab, isFixedHeight, ...props }) => {
   }
 };
 
-function TabbedView({ uuid, tabs, height = "auto", background = "#fdfdfc" }) {
+function TabbedView({ uuid, tabs, height = "auto", background = "#fff" }) {
   const [currentTabIdx, setCurrentTabIdx] = useState(0);
   const [appHeight, setAppHeight] = useState();
   const appRef = useRef();
@@ -67,8 +67,8 @@ function TabbedView({ uuid, tabs, height = "auto", background = "#fdfdfc" }) {
     window.parent.postMessage({ "data-tabs-command": command, "data-tabs-target": uuid }, "*");
   }, [uuid, appHeight]);
 
-  const enumaredTabs = useMemo(() => tabs.map((tab, idx) => ({ ...tab, idx })), [tabs]);
-  const selectedTab = enumaredTabs[currentTabIdx];
+  const enumaratedTabs = useMemo(() => tabs.map((tab, idx) => ({ ...tab, idx })), [tabs]);
+  const selectedTab = enumaratedTabs[currentTabIdx];
 
   if (!selectedTab) return null;
 
@@ -80,7 +80,8 @@ function TabbedView({ uuid, tabs, height = "auto", background = "#fdfdfc" }) {
     >
       <TabBar
         id="datawrapper-switcher"
-        tabs={enumaredTabs}
+        className="tab-bar"
+        tabs={enumaratedTabs}
         format={(tab) => tab.title}
         selectedTab={selectedTab}
         onChange={(tab) => {
@@ -88,18 +89,20 @@ function TabbedView({ uuid, tabs, height = "auto", background = "#fdfdfc" }) {
         }}
       />
 
-      {enumaredTabs.map((tab) => (
-        <Frame
-          key={tab.idx}
-          tab={tab}
-          isFixedHeight={isFixedHeight}
-          className={classNames(
-            "frame",
-            isFixedHeight && "frame-fixed",
-            currentTabIdx === tab.idx && "is-selected"
-          )}
-        />
-      ))}
+      <div className="panel-container">
+        {enumaratedTabs.map((tab) => (
+          <Frame
+            key={tab.idx}
+            tab={tab}
+            isFixedHeight={isFixedHeight}
+            className={classNames(
+              "frame",
+              isFixedHeight && "frame-fixed",
+              currentTabIdx === tab.idx && "is-selected"
+            )}
+          />
+        ))}
+      </div>
     </div>
   );
 }

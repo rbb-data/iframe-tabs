@@ -1,86 +1,32 @@
 /* autoprefixer grid: autoplace */
 
-:root {
-  --brand-primary: #00345f;
-}
 .app,
 .tabs {
   position: relative;
   width: 100%;
 }
 
+.tab-bar {
+  margin-bottom: 1em;
+}
+
 .app-fixed {
   height: 100vh;
 }
 
-.tabs {
-  display: flex;
-  flex-direction: column;
-}
-
-.tabs-fixed {
-  height: 100%;
-}
-
 .panel-container {
-  position: relative;
-
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
-}
 
-/* @keyframes panelAnimOut {
-  from {
-    opacity: 1;
-    visibility: visible;
-    z-index: 1;
-  }
-  to {
-    opacity: 0;
-    visibility: hidden;
-    z-index: 0;
-  }
+  height: 100%;
 }
-
-@keyframes panelAnimIn {
-  from {
-    opacity: 0;
-    visibility: visible;
-    z-index: 2;
-  }
-  to {
-    opacity: 1;
-    visibility: visible;
-    z-index: 2;
-  }
-}
-
-.panel-selected {
-  animation-name: panelAnimIn;
-  animation-duration: 0.5s;
-  animation-timing-function: ease-in;
-  animation-fill-mode: forwards;
-}
-
-.panel-out {
-  animation-name: panelAnimOut;
-  animation-duration: 0s;
-  animation-delay: 0.5s;
-  animation-timing-function: linear;
-  animation-fill-mode: forwards;
-  margin-top: -10000px;
-  transform: translateY(10000px);
-}
-
-.panel-fixed {
-  height: 100% !important;
-} */
 
 .frame {
-  position: absolute;
+  grid-column: 1 / 2;
+  grid-row: 1 / 2;
   opacity: 0;
   transition: opacity 1s;
   display: block;
