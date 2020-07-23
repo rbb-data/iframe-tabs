@@ -18,9 +18,10 @@ const makeResizerScript = (uuid) => {
 };
 
 const makeEmbedCode = (uuid, url, title, height) => {
-  return `<iframe id="data-tabs-${uuid}" title="${title}" aria-label="Tab-Übersicht: ${title}" src="${url}" scrolling="no" frameborder="0" width="100%" style="border: none; transition: height 0.2s ease-in-out;" height="${height}"></iframe>${
-    !height ? makeResizerScript(uuid) : ""
-  }`;
+  const FALLBACK_HEIGHT = "600px";
+  return `<iframe id="data-tabs-${uuid}" title="${title}" aria-label="Tab-Übersicht: ${title}" src="${url}" scrolling="no" frameborder="0" width="100%" style="border: none; transition: height 0.2s ease-in-out;" height="${
+    height || FALLBACK_HEIGHT
+  }"></iframe>${!height ? makeResizerScript(uuid) : ""}`;
 };
 
 const parseEmbedCode = (embedCode) => {
