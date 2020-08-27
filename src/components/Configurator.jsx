@@ -25,7 +25,9 @@ const makeEmbedCode = (uuid, url, title, height) => {
 };
 
 const parseEmbedCode = (embedCode) => {
-  const url = new URL(embedCode.match(/src="(.*?)"/)[1]);
+  // we use a hash for the route so we need to remove it so can be parsed as a URL
+  const rawUrl = embedCode.match(/src="(.*?)"/)[1].replace("/#/view?", "/view?");
+  const url = new URL(rawUrl);
   const titles = url.searchParams.getAll("title");
   const urls = url.searchParams.getAll("url");
   const frameTitles = url.searchParams.getAll("frameTitle");
