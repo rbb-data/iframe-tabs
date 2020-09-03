@@ -1,17 +1,19 @@
 /* autoprefixer grid: autoplace */
 
-.app,
-.tabs {
+.app {
   position: relative;
   width: 100%;
 }
 
-.tab-bar {
-  margin-bottom: 1em;
-}
-
 .app-fixed {
   height: 100vh;
+  display: flex;
+  flex-flow: column;
+}
+
+.tab-bar {
+  margin-bottom: 1em;
+  flex: 0 0 auto;
 }
 
 .panel-container {
@@ -22,6 +24,7 @@
   grid-row-gap: 0px;
 
   height: 100%;
+  flex: 1 1 100%;
 }
 
 .frame {
