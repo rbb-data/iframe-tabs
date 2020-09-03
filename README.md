@@ -2,7 +2,7 @@
 
 Simple tool to merge multiple iframes into a tabbed view of them
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+There is also an [image switcher](https://github.com/rbb-data/image-switcher) which does the same for images.
 
 ## Usage
 
