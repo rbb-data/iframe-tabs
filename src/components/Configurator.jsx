@@ -8,6 +8,10 @@ import frameResizerScript from "lib/frameResizer";
 
 import "./Configurator.css";
 
+/**
+ * Returns a script that takes care of resizing this particular embed (identified
+ * by the uuid) in its parent element.
+ */
 const makeResizerScript = (uuid) => {
   const script = frameResizerScript
     .toString()
@@ -17,23 +21,28 @@ const makeResizerScript = (uuid) => {
   return `<script type="text/javascript">(${script})();</script>`;
 };
 
+const FALLBACK_HEIGHT = 600;
 const makeEmbedCode = (uuid, url, title, height) => {
-  const FALLBACK_HEIGHT = 600;
   return `<iframe id="data-tabs-${uuid}" title="${title}" aria-label="Tab-Übersicht: ${title}" src="${url}" scrolling="no" frameborder="0" width="100%" style="border: none; transition: height 0.2s ease-in-out;" height="${
     height || FALLBACK_HEIGHT
   }"></iframe>${!height ? makeResizerScript(uuid) : ""}`;
 };
 
+/**
+ * Given the URL or Embed code of an existing datawrapper-switcher, this
+ * function returns the configuration used to create that switcher
+ */
 const parseEmbedCode = (embedCode) => {
   // we use a hash for the route so we need to remove it so can be parsed as a URL
-  const rawUrl = embedCode.match(/src="(.*?)"/)[1].replace("/#/view?", "/view?");
+  const rawUrl = embedCode.match(/https?:\/\/[^"]*/)[0].replace("/#/view?", "/view?");
   const url = new URL(rawUrl);
   const titles = url.searchParams.getAll("title");
   const urls = url.searchParams.getAll("url");
   const frameTitles = url.searchParams.getAll("frameTitle");
   const ariaLabels = url.searchParams.getAll("ariaLabel");
   const background = url.searchParams.get("background");
-  const height = embedCode.match(/height="(.*?)"/)[1];
+  const height = url.searchParams.get("height");
+  const embedTitle = embedCode.match(/title="(.*?)"/) != null ? embedCode.match(/title="(.*?)"/)[1] : 'Tab-Übersicht'
   const tabs = titles.map((title, i) => ({
     title,
     url: urls[i],
@@ -42,8 +51,8 @@ const parseEmbedCode = (embedCode) => {
   }));
   return {
     tabs,
-    title: embedCode.match(/title="(.*?)"/)[1],
-    height: height && Number(height),
+    title: embedTitle,
+    height: height !== "auto" ? Number(height) : FALLBACK_HEIGHT,
     background,
   };
 };
@@ -78,9 +87,10 @@ function Configurator() {
   const embedRef = useRef();
 
   const importCallback = useCallback(() => {
-    const { tabs, title, height, background } = parseEmbedCode(
-      window.prompt("Gib deinen existierenden Embed-Code hier ein:")
-    );
+    const embedCodeOrURL = window.prompt("Gib deinen existierenden Embed-Code hier ein:")
+    if (embedCodeOrURL == null) return // do nothing if the user aborted
+
+    const { tabs, title, height, background } = parseEmbedCode(embedCodeOrURL);
     setTabs(tabs);
     embedTitleRef.current.value = title;
     setEmbedTitle(title);
