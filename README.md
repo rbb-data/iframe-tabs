@@ -19,10 +19,17 @@ In the project directory, you can run:
 ### `npm start`
 
 Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:3000/#/new](http://localhost:3000/#/new) to view it in the browser.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
+
+Please note that there are two routes:
+
+- http://localhost:3000/#/new
+- http://localhost:3000/#/view
+
+The default route opened after running `npm start` will show a blank screen.
 
 ### `npm test`
 
