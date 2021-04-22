@@ -28,6 +28,7 @@ const Frame = ({ tab, isFixedHeight, ...props }) => {
         aria-label={tab.ariaLabel}
         frameBorder="0"
         scrolling="no"
+        loading="lazy"
         {...props}
       />
     );

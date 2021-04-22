@@ -1,6 +1,8 @@
 import "react-app-polyfill/ie11";
 import "react-app-polyfill/stable";
 
+import 'loading-attribute-polyfill/dist/loading-attribute-polyfill'
+
 import React from "react";
 import ReactDOM from "react-dom";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
