@@ -215,6 +215,7 @@ function Configurator() {
   const viewUrl = useMemo(() => {
     const url = new URL(`${process.env.PUBLIC_URL}/view`, window.location.origin);
     url.searchParams.append("uuid", uuid);
+    url.searchParams.append("type", navigationType)
     for (const tab of tabs) {
       url.searchParams.append("title", tab.title);
       url.searchParams.append("url", tab.url);
@@ -230,7 +231,7 @@ function Configurator() {
     // since we use the hash router we need to fix the url here.
     // we could also build it differently but for now this change is easier
     return url.toString().replace("/view?", "/#/view?");
-  }, [embedBackground, embedHeight, tabs, uuid]);
+  }, [embedBackground, embedHeight, tabs, uuid, navigationType]);
 
   const embedCode = useMemo(() => makeEmbedCode(uuid, viewUrl, embedTitle, embedHeight), [
     uuid,

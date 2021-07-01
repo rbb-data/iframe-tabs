@@ -24,6 +24,7 @@ const ariaLabels = urlParams.getAll("ariaLabel");
 const background = urlParams.get("background") || undefined;
 const height = urlParams.get("height") || null;
 const uuid = urlParams.get("uuid") || undefined;
+const navigationType = urlParams.get("type") || undefined
 
 const tabs = titles.map((title, i) => ({
   title,
@@ -37,7 +38,13 @@ ReactDOM.render(
     <Router>
       <Switch>
         <Route path={`/view`}>
-          <TabbedView uuid={uuid} tabs={tabs} height={height} background={background} />
+          <TabbedView
+            uuid={uuid}
+            tabs={tabs}
+            height={height}
+            type={navigationType}
+            background={background}
+          />
         </Route>
         <Route path={`/new`}>
           <Configurator />
