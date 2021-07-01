@@ -2,6 +2,7 @@ import React, { useState, useMemo } from "react";
 import classNames from "classnames";
 import DWChart from "react-datawrapper-chart";
 import TabBar from "components/_shared/TabBar/TabBar";
+import Slider from "components/_shared/Slider/Slider"
 
 import "./TabbedView.css";
 import { useLayoutEffect } from "react";
@@ -35,7 +36,47 @@ const Frame = ({ tab, isFixedHeight, ...props }) => {
   }
 };
 
-function TabbedView({ uuid, tabs, height = "auto", background = "#fff" }) {
+function Navigation({ tabs, currentTabIdx, setCurrentTabIdx, type = "tabs" }) {
+  const selectedTab = tabs[currentTabIdx];
+  if (!selectedTab) return null;
+
+  switch (type) {
+    case 'tabs':
+      return (
+        <TabBar
+          id="datawrapper-switcher"
+          className="tab-bar"
+          tabs={tabs}
+          format={(tab) => tab.title}
+          selectedTab={selectedTab}
+          onChange={(tab) => {
+            setCurrentTabIdx(tab.idx);
+          }}
+        />
+      )
+    
+    case 'slider':
+      const getTab = (idx) => (idx >= 0 && idx < tabs.length) ? tabs[idx] : null;
+      const prevTab = getTab(currentTabIdx - 1);
+      const nextTab = getTab(currentTabIdx + 1);
+      
+      return (
+        <Slider
+          onBackwardNavigation={() => { setCurrentTabIdx(prevTab.idx) }}
+          onForwardNavigation={() => { setCurrentTabIdx(nextTab.idx) }}
+        >
+          {() => prevTab?.title}
+          {() => selectedTab.title}
+          {() => nextTab?.title}
+        </Slider>
+      )
+    
+    default:
+      return <></>;
+  }
+}
+
+function TabbedView({ uuid, tabs, type = "tabs", height = "auto", background = "#fff" }) {
   const [currentTabIdx, setCurrentTabIdx] = useState(0);
   const [appHeight, setAppHeight] = useState();
   const appRef = useRef();
@@ -68,10 +109,7 @@ function TabbedView({ uuid, tabs, height = "auto", background = "#fff" }) {
     window.parent.postMessage({ "data-tabs-command": command, "data-tabs-target": uuid }, "*");
   }, [uuid, appHeight]);
 
-  const enumaratedTabs = useMemo(() => tabs.map((tab, idx) => ({ ...tab, idx })), [tabs]);
-  const selectedTab = enumaratedTabs[currentTabIdx];
-
-  if (!selectedTab) return null;
+  const enumeratedTabs = useMemo(() => tabs.map((tab, idx) => ({ ...tab, idx })), [tabs]);
 
   return (
     <div
@@ -79,19 +117,15 @@ function TabbedView({ uuid, tabs, height = "auto", background = "#fff" }) {
       ref={appRef}
       style={{ background }}
     >
-      <TabBar
-        id="datawrapper-switcher"
-        className="tab-bar"
-        tabs={enumaratedTabs}
-        format={(tab) => tab.title}
-        selectedTab={selectedTab}
-        onChange={(tab) => {
-          setCurrentTabIdx(tab.idx);
-        }}
+      <Navigation
+        tabs={enumeratedTabs}
+        currentTabIdx={currentTabIdx}
+        setCurrentTabIdx={setCurrentTabIdx}
+        type={type}
       />
 
       <div className="panel-container">
-        {enumaratedTabs.map((tab) => (
+        {enumeratedTabs.map((tab) => (
           <Frame
             key={tab.idx}
             tab={tab}

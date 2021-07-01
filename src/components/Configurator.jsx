@@ -28,6 +28,13 @@ const makeEmbedCode = (uuid, url, title, height) => {
   }"></iframe>${!height ? makeResizerScript(uuid) : ""}`;
 };
 
+const NAVIGATION = [
+  // use tabs to switch datawrapper charts
+  { id: 'tabs', label: 'Tabs' },
+  // use a slider to switch datawrapper charts
+  { id: 'slider', label: 'Slider' }
+];
+
 /**
  * Given the URL or Embed code of an existing datawrapper-switcher, this
  * function returns the configuration used to create that switcher
@@ -78,6 +85,7 @@ function Configurator() {
   const [embedTitle, setEmbedTitle] = useState("");
   const [embedHeight, setEmbedHeight] = useState(null);
   const [embedBackground, setEmbedBackground] = useState(null);
+  const [navigationType, setNavigationType] = useState(NAVIGATION[0].id);
 
   const viewRef = useRef();
 
@@ -241,6 +249,21 @@ function Configurator() {
           <button onClick={importCallback}>Importieren</button>
           <button onClick={newTabCallback}>Neuer Tab</button>
         </div>
+        <div>
+          <h3 className="break">Navigation</h3>
+          {NAVIGATION.map((nav) => (
+            <label key={nav.id}>
+              <input
+                type="radio"
+                name="select-navigation-type"
+                value={nav.id}
+                checked={nav.id === navigationType}
+                onChange={(e) => setNavigationType(e.target.value)}
+              />
+              {nav.label}
+            </label>
+          ))}
+        </div>
         <div className="new_config_tabs">
           <h3 className="break">Tabs</h3>
           {tabs.map((tab, i) => (
@@ -347,6 +370,7 @@ function Configurator() {
             tabs={tabs}
             height={embedHeight ? embedHeight : undefined}
             background={embedBackground || undefined}
+            type={navigationType}
           />
         </div>
       </div>
