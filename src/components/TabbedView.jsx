@@ -36,7 +36,7 @@ const Frame = ({ tab, isFixedHeight, ...props }) => {
   }
 };
 
-function Navigation({ tabs, currentTabIdx, setCurrentTabIdx, type = "tabs" }) {
+function Navigation({ tabs, currentTabIdx, setCurrentTabIdx, type = "tabs", className = "nav" }) {
   const selectedTab = tabs[currentTabIdx];
   if (!selectedTab) return null;
 
@@ -45,7 +45,7 @@ function Navigation({ tabs, currentTabIdx, setCurrentTabIdx, type = "tabs" }) {
       return (
         <TabBar
           id="datawrapper-switcher"
-          className="tab-bar"
+          className={className}
           tabs={tabs}
           format={(tab) => tab.title}
           selectedTab={selectedTab}
@@ -64,6 +64,7 @@ function Navigation({ tabs, currentTabIdx, setCurrentTabIdx, type = "tabs" }) {
         <Slider
           onBackwardNavigation={() => { setCurrentTabIdx(prevTab.idx) }}
           onForwardNavigation={() => { setCurrentTabIdx(nextTab.idx) }}
+          className={className}
         >
           {() => prevTab?.title}
           {() => selectedTab.title}
