@@ -49,6 +49,7 @@ const parseEmbedCode = (embedCode) => {
   const ariaLabels = url.searchParams.getAll("ariaLabel");
   const background = url.searchParams.get("background");
   const height = url.searchParams.get("height");
+  const type = url.searchParams.get("type") || "tabs";
   const embedTitle = embedCode.match(/title="(.*?)"/) != null ? embedCode.match(/title="(.*?)"/)[1] : 'Tab-Übersicht'
   const tabs = titles.map((title, i) => ({
     title,
@@ -61,6 +62,7 @@ const parseEmbedCode = (embedCode) => {
     title: embedTitle,
     height: height !== "auto" ? Number(height) : FALLBACK_HEIGHT,
     background,
+    type,
   };
 };
 
@@ -98,7 +100,7 @@ function Configurator() {
     const embedCodeOrURL = window.prompt("Gib deinen existierenden Embed-Code hier ein:")
     if (embedCodeOrURL == null) return // do nothing if the user aborted
 
-    const { tabs, title, height, background } = parseEmbedCode(embedCodeOrURL);
+    const { tabs, title, height, background, type } = parseEmbedCode(embedCodeOrURL);
     setTabs(tabs);
     embedTitleRef.current.value = title;
     setEmbedTitle(title);
@@ -108,6 +110,7 @@ function Configurator() {
       embedBackgroundRef.current.value = background;
       setEmbedBackground(background);
     }
+    setNavigationType(type);
   }, []);
 
   const newTabCallback = useCallback(() => {
