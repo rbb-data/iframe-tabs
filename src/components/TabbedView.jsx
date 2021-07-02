@@ -59,6 +59,9 @@ function Navigation({ tabs, currentTabIdx, setCurrentTabIdx, type = "tabs", clas
       const getTab = (idx) => (idx >= 0 && idx < tabs.length) ? tabs[idx] : null;
       const prevTab = getTab(currentTabIdx - 1);
       const nextTab = getTab(currentTabIdx + 1);
+          
+      // this is what is rendered as tab title
+      const tabTitle = (tab) => tab ? <span className="slider--tab-title">{tab.title}</span> : null
       
       return (
         <Slider
@@ -66,9 +69,9 @@ function Navigation({ tabs, currentTabIdx, setCurrentTabIdx, type = "tabs", clas
           onForwardNavigation={() => { setCurrentTabIdx(nextTab.idx) }}
           className={className}
         >
-          {() => prevTab?.title}
-          {() => selectedTab.title}
-          {() => nextTab?.title}
+          {() => tabTitle(prevTab)}
+          {() => tabTitle(selectedTab)}
+          {() => tabTitle(nextTab)}
         </Slider>
       )
     
