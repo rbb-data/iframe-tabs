@@ -157,7 +157,7 @@ function Configurator() {
             ? t
             : {
                 ...tab,
-                subTitle: window.prompt("Neuen Untertitel eingeben:", tab.subTitle) || tab.subTitle,
+                subTitle: window.prompt("Neuen Untertitel eingeben:", tab.subTitle) || '',
               }
         )
       ),

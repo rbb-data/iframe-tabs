@@ -37,18 +37,26 @@ const Frame = ({ tab, isFixedHeight, ...props }) => {
   }
 };
 
-function Navigation({ tabs, currentTabIdx, setCurrentTabIdx, type = "tabs", className = "nav" }) {
+function Navigation({
+  id,
+  tabs,
+  currentTabIdx,
+  setCurrentTabIdx,
+  format = (value) => value,
+  type = "tabs",
+  className = "nav",
+}) {
   const selectedTab = tabs[currentTabIdx];
   if (!selectedTab) return null;
 
   switch (type) {
-    case 'tabs':
+    case "tabs":
       return (
         <TabBar
-          id="datawrapper-switcher"
+          id={id}
           className={className}
           tabs={tabs}
-          format={(tab) => tab.title}
+          format={format}
           selectedTab={selectedTab}
           onChange={(tab) => {
             setCurrentTabIdx(tab.idx);
@@ -56,7 +64,7 @@ function Navigation({ tabs, currentTabIdx, setCurrentTabIdx, type = "tabs", clas
         />
       )
     
-    case 'slider':
+    case "slider":
       const getTab = (idx) => (idx >= 0 && idx < tabs.length) ? tabs[idx] : null;
       const prevTab = getTab(currentTabIdx - 1);
       const nextTab = getTab(currentTabIdx + 1);
@@ -97,7 +105,8 @@ function Navigation({ tabs, currentTabIdx, setCurrentTabIdx, type = "tabs", clas
 }
 
 function TabbedView({ uuid, tabs, type = "tabs", height = "auto", background = "#fff" }) {
-  const [currentTabIdx, setCurrentTabIdx] = useState(0);
+  const [currentTopTabIdx, setCurrentTopTabIdx] = useState(0);
+  const [currentBottomTabIdx, setCurrentBottomTabIdx] = useState(0);
   const [appHeight, setAppHeight] = useState();
   const appRef = useRef();
 
@@ -129,7 +138,38 @@ function TabbedView({ uuid, tabs, type = "tabs", height = "auto", background = "
     window.parent.postMessage({ "data-tabs-command": command, "data-tabs-target": uuid }, "*");
   }, [uuid, appHeight]);
 
-  const enumeratedTabs = useMemo(() => tabs.map((tab, idx) => ({ ...tab, idx })), [tabs]);
+  const [frames, topTabs, bottomTabs] = useMemo(() => {
+    const enumerate = (arr) => arr.map((item, idx) => ({ ...item, idx }));
+
+    // if not every tab has a subtitle, ignore all subtitles
+    // and render a single tab bar only
+    if (tabs.filter((tab) => tab.subTitle).length !== tabs.length) {
+      return [
+        tabs.map((tab, idx) => ({ ...tab, topIdx: idx, bottomIdx: 0 })),
+        enumerate(tabs),
+        []
+      ];
+    }
+
+    const titles = tabs.map((tab) => tab.title);
+    const subTitles = tabs.map((tab) => tab.subTitle);
+
+    // extract unique lists of tabs
+    const topTabs = enumerate(tabs.filter((tab, idx) => titles.indexOf(tab.title) === idx));
+    const bottomTabs = enumerate(tabs.filter((tab, idx) => subTitles.indexOf(tab.subTitle) === idx));
+    
+    const topTitles = topTabs.map((ttab) => ttab.title);
+    const bottomTitles = bottomTabs.map((ttab) => ttab.subTitle);
+
+    // assign every datawrapper frame to a tab combination
+    const frames = tabs.map((tab) => ({
+      ...tab,
+      topIdx: topTitles.indexOf(tab.title),
+      bottomIdx: bottomTitles.indexOf(tab.subTitle)
+    }))
+
+    return [ frames, topTabs, bottomTabs ];
+  }, [tabs]);
 
   return (
     <div
@@ -138,22 +178,33 @@ function TabbedView({ uuid, tabs, type = "tabs", height = "auto", background = "
       style={{ background }}
     >
       <Navigation
-        tabs={enumeratedTabs}
-        currentTabIdx={currentTabIdx}
-        setCurrentTabIdx={setCurrentTabIdx}
+        id="datawrapper-switcher-top"
+        tabs={topTabs}
+        format={(tab) => tab?.title}
+        currentTabIdx={currentTopTabIdx}
+        setCurrentTabIdx={setCurrentTopTabIdx}
         type={type}
       />
 
+      {bottomTabs && <Navigation
+        id="datawrapper-switcher-bottom"
+        tabs={bottomTabs}
+        format={(tab) => tab?.subTitle}
+        currentTabIdx={currentBottomTabIdx}
+        setCurrentTabIdx={setCurrentBottomTabIdx}
+        type={type}
+      />}
+
       <div className="panel-container">
-        {enumeratedTabs.map((tab) => (
+        {frames.map((tab) => (
           <Frame
-            key={tab.idx}
+            key={[tab.topIdx, tab.bottomIdx].join('-')}
             tab={tab}
             isFixedHeight={isFixedHeight}
             className={classNames(
               "frame",
               isFixedHeight && "frame-fixed",
-              currentTabIdx === tab.idx && "is-selected"
+              (currentTopTabIdx === tab.topIdx && currentBottomTabIdx === tab.bottomIdx) && "is-selected"
             )}
           />
         ))}
