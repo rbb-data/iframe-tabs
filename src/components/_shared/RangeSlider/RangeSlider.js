@@ -25,20 +25,27 @@ const RangeSlider = props => {
     z.B. 2000/2010/2020/2030 mit jeweils 10 Jahren Abstand.
   </p>
 
+  const minValue = values[0];
+  const maxValue = values[values.length - 1]
+
   const findItem = (value) => items.find(item => getValue(item) == value);
 
   return (
-    <div className={className}>
-      <input
-        id={id}
-        type="range"
-        min={values[0]}
-        max={values[values.length - 1]}
-        step={step}
-        value={getValue(selectedItem)}
-        onChange={(e) => onChange(findItem(e.target.value))}
-      />
-      {format(selectedItem)}
+    <div className={`${className} ${_.rangeSlider}`}>
+      <span className={_.rangeSliderLabel}>{format(selectedItem)}</span>
+      <div className={_.rangeContainer}>
+        <span className={_.labelMin}>{minValue}</span>
+        <input
+          id={id}
+          type="range"
+          min={minValue}
+          max={maxValue}
+          step={step}
+          value={getValue(selectedItem)}
+          onChange={(e) => onChange(findItem(e.target.value))}
+        />
+        <span className={_.labelMax}>{maxValue}</span>
+      </div>
     </div>
   )
 }
