@@ -89,7 +89,7 @@ function Navigation({
     case 'range-slider':
       return (
         <RangeSlider
-          id="datawrapper-switcher"
+          id={id}
           className={className}
           items={tabs}
           getValue={(tab) => +tab.title}
