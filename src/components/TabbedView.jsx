@@ -43,6 +43,7 @@ function Navigation({
   currentTabIdx,
   setCurrentTabIdx,
   format = (value) => value,
+  getValue = (value) => +value,
   disabled = () => false,
   type = "tabs",
   className = "nav",
@@ -72,7 +73,7 @@ function Navigation({
       const nextTab = getTab(currentTabIdx + 1);
           
       // this is what is rendered as tab title
-      const tabTitle = (tab) => tab ? <span className="slider--tab-title">{tab.title}</span> : null
+      const tabTitle = (tab) => tab ? <span className="slider--tab-title">{format(tab)}</span> : null
       
       return (
         <Slider
@@ -92,8 +93,8 @@ function Navigation({
           id={id}
           className={className}
           items={tabs}
-          getValue={(tab) => +tab.title}
-          format={(tab) => tab.title}
+          getValue={getValue}
+          format={format}
           selectedItem={selectedTab}
           onChange={(tab) => {
             setCurrentTabIdx(tab.idx);
@@ -198,6 +199,7 @@ function TabbedView({ uuid, tabs, type = "tabs", height = "auto", background = "
         currentTabIdx={currentTopTabIdx}
         setCurrentTabIdx={setCurrentTopTabIdx}
         type={type}
+        getValue={(tab) => +tab?.title}
       />
 
       {bottomTabs && <Navigation
@@ -207,6 +209,7 @@ function TabbedView({ uuid, tabs, type = "tabs", height = "auto", background = "
         currentTabIdx={currentBottomTabIdx}
         setCurrentTabIdx={setCurrentBottomTabIdx}
         type={type}
+        getValue={(tab) => +tab?.subTitle}
         disabled={(tab) => !frames.some((frame) => frame.topIdx === currentTopTabIdx && frame.bottomIdx === tab.idx)}
       />}
 
