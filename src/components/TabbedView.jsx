@@ -43,6 +43,7 @@ function Navigation({
   currentTabIdx,
   setCurrentTabIdx,
   format = (value) => value,
+  disabled = () => false,
   type = "tabs",
   className = "nav",
 }) {
@@ -61,6 +62,7 @@ function Navigation({
           onChange={(tab) => {
             setCurrentTabIdx(tab.idx);
           }}
+          disabled={disabled}
         />
       )
     
@@ -155,8 +157,8 @@ function TabbedView({ uuid, tabs, type = "tabs", height = "auto", background = "
     const subTitles = tabs.map((tab) => tab.subTitle);
 
     // extract unique lists of tabs
-    const topTabs = enumerate(tabs.filter((tab, idx) => titles.indexOf(tab.title) === idx));
-    const bottomTabs = enumerate(tabs.filter((tab, idx) => subTitles.indexOf(tab.subTitle) === idx));
+    let topTabs = enumerate(tabs.filter((tab, idx) => titles.indexOf(tab.title) === idx));
+    let bottomTabs = enumerate(tabs.filter((tab, idx) => subTitles.indexOf(tab.subTitle) === idx));
     
     const topTitles = topTabs.map((ttab) => ttab.title);
     const bottomTitles = bottomTabs.map((ttab) => ttab.subTitle);
@@ -168,8 +170,20 @@ function TabbedView({ uuid, tabs, type = "tabs", height = "auto", background = "
       bottomIdx: bottomTitles.indexOf(tab.subTitle)
     }))
 
+    // sync with frames
+    topTabs = topTabs.map((tab) => ({ ...tab, idx: topTitles.indexOf(tab.title) }))
+    bottomTabs = bottomTabs.map((tab) => ({ ...tab, idx: bottomTitles.indexOf(tab.subTitle) }))
+
     return [ frames, topTabs, bottomTabs ];
   }, [tabs]);
+
+  // check for invalid tab combinations
+  useEffect(() => {
+    if (!frames.some((frame) => frame.topIdx === currentTopTabIdx && frame.bottomIdx === currentBottomTabIdx)) {
+      const validFrame = frames.find((frame) => frame.topIdx === currentTopTabIdx)
+      if (validFrame) setCurrentBottomTabIdx(validFrame.bottomIdx)
+    }
+  }, [frames, currentTopTabIdx, currentBottomTabIdx])
 
   return (
     <div
@@ -193,6 +207,7 @@ function TabbedView({ uuid, tabs, type = "tabs", height = "auto", background = "
         currentTabIdx={currentBottomTabIdx}
         setCurrentTabIdx={setCurrentBottomTabIdx}
         type={type}
+        disabled={(tab) => !frames.some((frame) => frame.topIdx === currentTopTabIdx && frame.bottomIdx === tab.idx)}
       />}
 
       <div className="panel-container">
