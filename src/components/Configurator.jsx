@@ -32,7 +32,9 @@ const NAVIGATION = [
   // use tabs to switch datawrapper charts
   { id: 'tabs', label: 'Tabs' },
   // use a slider to switch datawrapper charts
-  { id: 'slider', label: 'Slider' }
+  { id: 'slider', label: 'Slider' },
+  // use a range slider to switch datawrapper charts
+  { id: 'range-slider', label: 'Range Slider' }
 ];
 
 /**
