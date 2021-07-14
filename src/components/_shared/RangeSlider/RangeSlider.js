@@ -1,22 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import _ from './CompactSlider.module.sass'
+import _ from './RangeSlider.module.sass'
 
 /**
- * Renders selectable Tabs next to each other
+ * Renders a numerical slider
  */
-const CompactSlider = props => {
+const RangeSlider = props => {
   const {
     id,
-    tabs,
-    selectedTab,
+    items,
+    selectedItem,
     getValue,
     format,
     onChange,
     className
   } = props
 
-  const values = tabs.map(getValue).sort()
+  const values = items.map(getValue).sort()
   const step = values[1] - values[0]
 
   if (!values.every((value) => value % step === 0)) return <p className={_.help}>
@@ -25,7 +25,7 @@ const CompactSlider = props => {
     z.B. 2000/2010/2020/2030 mit jeweils 10 Jahren Abstand.
   </p>
 
-  const findTab = (value) => tabs.find(tab => getValue(tab) == value);
+  const findItem = (value) => items.find(item => getValue(item) == value);
 
   return (
     <div className={className}>
@@ -35,23 +35,23 @@ const CompactSlider = props => {
         min={values[0]}
         max={values[values.length - 1]}
         step={step}
-        value={getValue(selectedTab)}
-        onChange={(e) => onChange(findTab(e.target.value))}
+        value={getValue(selectedItem)}
+        onChange={(e) => onChange(findItem(e.target.value))}
       />
-      {format(selectedTab)}
+      {format(selectedItem)}
     </div>
   )
 }
 
-CompactSlider.propTypes = {
-  /** needs to be uniqe in the document */
+RangeSlider.propTypes = {
+  /** needs to be unique in the document */
   id: PropTypes.string.isRequired,
   className: PropTypes.string,
-  /** An array of objects like this: { value: 0, display: 'tab1' } */
-  tabs: PropTypes.array.isRequired,
-  selectedTab: PropTypes.any.isRequired,
+  /** An array of objects or values */
+  items: PropTypes.array.isRequired,
+  selectedItem: PropTypes.any.isRequired,
   /** takes the tab value and should return its label
-   *  (anything that can be renderd by react)
+   *  (anything that can be rendered by react)
    */
   /** takes a tab and returns the value used for the slider */
   getValue: PropTypes.func,
@@ -60,11 +60,11 @@ CompactSlider.propTypes = {
   onChange: PropTypes.func
 }
 
-CompactSlider.defaultProps = {
+RangeSlider.defaultProps = {
   onChange: () => {},
   format: value => value,
   getValue: value => +value,
   className: ''
 }
 
-export default CompactSlider
+export default RangeSlider

@@ -3,7 +3,7 @@ import classNames from "classnames";
 import DWChart from "react-datawrapper-chart";
 import TabBar from "components/_shared/TabBar/TabBar";
 import Slider from "components/_shared/Slider/Slider"
-import CompactSlider from "components/_shared/CompactSlider/CompactSlider"
+import RangeSlider from "components/_shared/RangeSlider/RangeSlider"
 
 import "./TabbedView.css";
 import { useLayoutEffect } from "react";
@@ -78,13 +78,13 @@ function Navigation({ tabs, currentTabIdx, setCurrentTabIdx, type = "tabs", clas
 
     case 'range-slider':
       return (
-        <CompactSlider
+        <RangeSlider
           id="datawrapper-switcher"
           className={className}
-          tabs={tabs}
+          items={tabs}
           getValue={(tab) => +tab.title}
           format={(tab) => tab.title}
-          selectedTab={selectedTab}
+          selectedItem={selectedTab}
           onChange={(tab) => {
             setCurrentTabIdx(tab.idx);
           }}
