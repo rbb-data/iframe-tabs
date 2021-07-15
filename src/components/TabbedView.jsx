@@ -61,7 +61,7 @@ function Navigation({ tabs, currentTabIdx, setCurrentTabIdx, type = "tabs", clas
       const nextTab = getTab(currentTabIdx + 1);
           
       // this is what is rendered as tab title
-      const tabTitle = (tab) => tab ? <span className="slider--tab-title">{tab.title}</span> : null
+      const tabTitle = (tab) => tab ? tab.title : null
       
       return (
         <Slider

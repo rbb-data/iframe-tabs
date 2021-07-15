@@ -16,10 +16,6 @@
   flex: 0 0 auto;
 }
 
-.nav .slider--tab-title {
-  font-weight: bold;
-}
-
 .panel-container {
   display: grid;
   grid-template-columns: 1fr;
