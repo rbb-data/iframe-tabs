@@ -155,10 +155,12 @@ export default class Slider extends Component {
           { this.canNavigateBackward &&
             <button className={`${_.prevNextButton} ${_.prev}`} onClick={navigateBack}>
               <img alt='go to previous slide' src={nextIcon} />
+              {previousSlide}
             </button>
           }
           { this.canNavigateForward &&
             <button className={`${_.prevNextButton} ${_.next}`} onClick={navigateForward}>
+              {nextSlide}
               <img alt='go to next slide' src={nextIcon} />
             </button>
           }
