@@ -14,7 +14,8 @@ const TabBar = props => {
     format,
     color,
     onChange,
-    className
+    className,
+    disabled
   } = props
 
   return (
@@ -22,7 +23,7 @@ const TabBar = props => {
       <ul title={title}>
         {tabs.map((tab, i) => (
           <li
-            className={tab === selectedTab ? styles.active : ''}
+            className={`${tab === selectedTab ? styles.active : ''} ${disabled(tab) ? styles.disabled : ''}`}
             key={`${id}-${i}`}
           >
             <input
@@ -32,6 +33,7 @@ const TabBar = props => {
               value={i}
               checked={tab === selectedTab}
               onChange={() => onChange(tab)}
+              disabled={disabled(tab)}
             />
 
             <label htmlFor={`${id}-${i}`}>
@@ -63,14 +65,16 @@ TabBar.propTypes = {
   /** takes the tab value and should return its background color */
   color: PropTypes.func,
   /** select handler */
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  disabled: PropTypes.func
 }
 
 TabBar.defaultProps = {
   onChange: () => {},
   format: value => value,
   color: () => null,
-  className: ''
+  className: '',
+  disabled: () => false
 }
 
 export default TabBar

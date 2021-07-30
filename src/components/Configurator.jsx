@@ -32,7 +32,9 @@ const NAVIGATION = [
   // use tabs to switch datawrapper charts
   { id: 'tabs', label: 'Tabs' },
   // use a slider to switch datawrapper charts
-  { id: 'slider', label: 'Slider' }
+  { id: 'slider', label: 'Slider' },
+  // use a range slider to switch datawrapper charts
+  { id: 'range-slider', label: 'Range Slider' }
 ];
 
 /**
@@ -44,6 +46,7 @@ const parseEmbedCode = (embedCode) => {
   const rawUrl = embedCode.match(/https?:\/\/[^"]*/)[0].replace("/#/view?", "/view?");
   const url = new URL(rawUrl);
   const titles = url.searchParams.getAll("title");
+  const subTitles = url.searchParams.getAll("subTitle");
   const urls = url.searchParams.getAll("url");
   const frameTitles = url.searchParams.getAll("frameTitle");
   const ariaLabels = url.searchParams.getAll("ariaLabel");
@@ -53,6 +56,7 @@ const parseEmbedCode = (embedCode) => {
   const embedTitle = embedCode.match(/title="(.*?)"/) != null ? embedCode.match(/title="(.*?)"/)[1] : 'Tab-Übersicht'
   const tabs = titles.map((title, i) => ({
     title,
+    subTitle: i < subTitles.length ? subTitles[i] : '',
     url: urls[i],
     frameTitle: frameTitles[i],
     ariaLabel: ariaLabels[i],
@@ -117,12 +121,16 @@ function Configurator() {
     const title = window.prompt("Titel des Tabs:");
     if (title === null) return;
 
+    const subTitle = window.prompt("Title des Tabs in der zweiten Reihe (wenn gewünscht)");
+    if (subTitle === null) return;
+
     const embedCode = window.prompt("Datawrapper Embed-Code:");
     if (embedCode === null) return;
 
     const newTab = {
       ...parseDatawrapperEmbedCode(embedCode),
       title,
+      subTitle
     };
     setTabs(tabs.concat([newTab]));
   }, [tabs]);
@@ -136,6 +144,20 @@ function Configurator() {
             : {
                 ...tab,
                 title: window.prompt("Neuen Titel eingeben:", tab.title) || tab.title,
+              }
+        )
+      ),
+    [tabs]
+  );
+  const editTabSubTitleCallback = useCallback(
+    (tab) =>
+      setTabs(
+        tabs.map((t) =>
+          t !== tab
+            ? t
+            : {
+                ...tab,
+                subTitle: window.prompt("Neuen Untertitel eingeben:", tab.subTitle) || '',
               }
         )
       ),
@@ -221,6 +243,9 @@ function Configurator() {
     url.searchParams.append("type", navigationType)
     for (const tab of tabs) {
       url.searchParams.append("title", tab.title);
+      if (tab.subTitle) {
+        url.searchParams.append("subTitle", tab.subTitle);
+      }
       url.searchParams.append("url", tab.url);
       url.searchParams.append("frameTitle", tab.frameTitle);
       url.searchParams.append("ariaLabel", tab.ariaLabel);
@@ -275,6 +300,10 @@ function Configurator() {
               <div className="new_config_tab-item_attr">
                 <button onClick={() => editTabTitleCallback(tab)}>✏</button>
                 <span>Tab-Titel:</span> <span>{tab.title}</span>
+              </div>
+              <div className="new_config_tab-item_attr">
+                <button onClick={() => editTabSubTitleCallback(tab)}>✏</button>
+                <span>Tab-Subtitel:</span> <span>{tab.subTitle}</span>
               </div>
               <div className="new_config_tab-item_attr">
                 <button onClick={() => editTabUrlCallback(tab)}>✏</button>

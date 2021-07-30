@@ -18,6 +18,7 @@ const queryStringFromHash = window.location.hash.split("?")[1];
 const urlParams = new URLSearchParams(queryStringFromHash);
 
 const titles = urlParams.getAll("title");
+const subTitles = urlParams.getAll("subTitle");
 const urls = urlParams.getAll("url");
 const frameTitles = urlParams.getAll("frameTitle");
 const ariaLabels = urlParams.getAll("ariaLabel");
@@ -28,6 +29,7 @@ const navigationType = urlParams.get("type") || undefined
 
 const tabs = titles.map((title, i) => ({
   title,
+  subTitle: i < subTitles.length ? subTitles[i] : '',
   url: urls[i],
   frameTitle: frameTitles[i],
   ariaLabel: ariaLabels[i],
