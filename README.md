@@ -18,6 +18,9 @@ In the project directory, you can run:
 
 ### `npm start`
 
+> **Note**
+> Node 16 required
+
 Runs the app in the development mode.<br />
 Open [http://localhost:3000/#/new](http://localhost:3000/#/new) to view it in the browser.
 
